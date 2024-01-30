@@ -1,0 +1,165 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+{% load static %}
+
+<div style="padding: 40px 30px 60px 30px;">
+  <div class="text-center">
+    <h1>
+
+    <b>
+
+      <i class="fa-solid fa-building-columns"></i>
+      Curso
+    </b>
+    </h1>
+    <br>
+  </div>
+
+
+    <br>
+    <div class="row">
+       <div class="col-md-5">
+         <form class="" action="/guardarCurso/" method="post" enctype="multipart/form-data" id="frm_nuevo_cliente">
+           {% csrf_token %}
+           <b>Seleccione la Carrera:</b><br>
+          <select class="form-control" name="id_carrera" id="id_carrera" required>
+            <option value="">---SELECCIONE LA CARRERA---</option >
+            {%  for carrera in carreras %}
+            <option value="{{carrera.idCarreraJTVE}}">{{carrera.nombreCarreraJTVE}}</option>
+            {% endfor %}
+          </select><br>
+
+            <b>Nivel del Curso:</b><br>
+           <input type="text" name="nivelCursoJTVE" value="" id="nivelCursoJTVE" placeholder="Ingrese el nombre de la carrera" class="form-control" required><br>
+           <b>Descripción:</b><br>
+           <input type="text" name="descripcionCursoJTVE" value="" id="descripcionCursoJTVE" placeholder="Ingrese la descripción" class="form-control" required><br>
+           <b>Aula del Curso:</b>
+            <input type="text" name="aulaCursoJTVE" value="" id="aulaCursoJTVE" placeholder="Ingrese el aula del curso" class="form-control" required><br>
+           <b>Piso del Curso:</b>
+            <input type="text" name="pisoCursoJTVE" value="" id="pisoCursoJTVE" placeholder="Ingrese el piso del Curso" class="form-control" required><br>
+            <b>Duración:</b><br>
+            <input type="text" name="duracionCursoJTVE" value="" id="duracionCursoJTVE" placeholder="Ingrese la duración" class="form-control" required><br>
+            <center>
+              <button type="submit" name="button" class="btn btn-primary">&nbsp;&nbsp;<i class="fa-solid fa-floppy-disk"></i>&nbsp;Guardar&nbsp;&nbsp;&nbsp;</button>
+              <button type="reset" name="button" class="btn btn-warning">&nbsp;&nbsp;<i class="fa-solid fa-xmark"></i>&nbsp;Cancelar&nbsp;&nbsp;&nbsp;</button>
+
+            </center>
+
+
+         </form>
+
+       </div>
+       <div class="col-md-7 text-center">
+         <table class="table table-striped" id="tbl_clientes">
+           <thead>
+             <tr>
+               <th>ID</th>
+               <th>Nivel</th>
+               <th>Descripción</th>
+               <th>Aula</th>
+               <th>Piso</th>
+               <th>Duración</th>
+               <th>Carrera</th>
+               <th>Acciones</th>
+             </tr>
+
+           </thead>
+           <tbody>
+             {% for curso in cursos %}
+                <tr>
+                  <td>{{curso.idCursoJTVE}}</td>
+                  <td>{{curso.nivelCursoJTVE}}</td>
+                  <td>{{curso.descripcionCursoJTVE}}</td>
+                  <td>{{curso.aulaCursoJTVE}}</td>
+                  <td>{{curso.pisoCursoJTVE}}</td>
+                  <td>{{curso.duracionCursoJTVE}}</td>
+                  <td>{{curso.carreraJTVE.nombreCarreraJTVE}}</td>
+
+
+                  <td>
+                        <a href="/editarCurso/{{curso.idCursoJTVE}}" class="btn btn-warning">&nbsp;<i class="fa-solid fa-pen-to-square"></i>&nbsp;Editar&nbsp;</a>
+                        <a href="javascript: void(0)" onclick="eliminarCurso('/eliminarCurso/{{curso.idCursoJTVE}}');" class="btn btn-danger">&nbsp;<i class="fa-solid fa-trash"></i>&nbsp;Eliminar&nbsp;</a>
+                  </td>
+                </tr>
+                {% endfor %}
+           </tbody>
+
+         </table>
+       </div>
+    </div>
+</div>
+<script type="text/javascript">
+      function eliminarCurso(url){
+        iziToast.question({
+            timeout: 15000,
+            close: true,
+            overlay: true,
+            displayMode: 'once',
+            id: 'question',
+            zindex: 999,
+            title: 'CONFIRMACIÓN',
+            message: '¿Está seguro de eliminar el cliente seleccionado?',
+            position: 'center',
+            buttons: [
+                ['<button><b>SI</b></button>', function (instance, toast) {
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                    window.location.href=url;
+                }, true],
+                ['<button>NO</button>', function (instance, toast) {
+
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                }],
+            ]
+        });
+      }
+    </script>
+
+    <script type="text/javascript">
+  $("#frm_nuevo_cliente").validate({
+    rules:{
+      "id_carrera":{
+        required:true
+      },
+      "nivelCursoJTVE":{
+        required:true
+      },
+      "descripcionCursoJTVE":{
+        required:true
+      },
+      "aulaCursoJTVE":{
+        required:true
+      },
+      "pisoCursoJTVE":{
+        required:true
+      },
+      "duracionCursoJTVE":{
+        required:true
+      }
+
+    },
+    messages:{
+      "id_carrera":{
+        required:"Escoja la carrera"
+      },
+      "nivelCursoJTVE":{
+        required:"Ingrese el nivel del curso"
+      },
+      "descripcionCursoJTVE":{
+        required:"Ingrese el nivel del curso"
+      },
+      "aulaCursoJTVE":{
+        required:"Ingrese el aula del curso"
+      },
+      "pisoCursoJTVE":{
+        required:"Ingrese el piso del curso"
+      },
+      "duracionCursoJTVE":{
+        required:"Ingrese la duración del curso"
+      },
+
+    }
+  });
+</script>
+
+  {% endblock %}

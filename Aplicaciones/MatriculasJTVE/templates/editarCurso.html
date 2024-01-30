@@ -1,0 +1,56 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+{% load static %}
+
+
+<div style="padding: 60px 30px 200px 30px;">
+  <div class="row">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+      <form class="" action="/procesarinformacionCurso/" method="post" enctype="multipart/form-data" id="frm_nuevo_cliente">
+        {% csrf_token %}
+        <b>Seleccione la Carrera:</b><br>
+       <select class="form-control" name="id_carrera" id="id_carrera" required>
+         <option value="">---SELECCIONE LA CARRERA---</option >
+         {%  for carrera in carreras %}
+         <option value="{{carrera.idCarreraJTVE}}">{{carrera.nombreCarreraJTVE}}</option>
+         {% endfor %}
+       </select><br>
+        <script type="text/javascript">
+         document.getElementById("id_carrera").value="{{curso.carreraJTVE.idCarreraJTVE}}";
+
+       </script>
+
+        <input type="hidden" name="idCursoJTVE" value="{{curso.idCursoJTVE}}">
+        <b>Nivel del Curso:</b><br>
+       <input type="text" name="nivelCursoJTVE" value="{{curso.nivelCursoJTVE}}" id="nivelCursoJTVE" placeholder="Ingrese el nombre de la carrera" class="form-control" required><br>
+       <b>Descripción:</b><br>
+       <input type="text" name="descripcionCursoJTVE" value="{{curso.descripcionCursoJTVE}}" id="descripcionCursoJTVE" placeholder="Ingrese la descripción" class="form-control" required><br>
+       <b>Aula del Curso:</b>
+        <input type="text" name="aulaCursoJTVE" value="{{curso.aulaCursoJTVE}}" id="aulaCursoJTVE" placeholder="Ingrese el aula del curso" class="form-control" required><br>
+       <b>Piso del Curso:</b>
+        <input type="text" name="pisoCursoJTVE" value="{{curso.pisoCursoJTVE}}" id="pisoCursoJTVE" placeholder="Ingrese el piso del Curso" class="form-control" required><br>
+        <b>Duración:</b><br>
+        <input type="text" name="duracionCursoJTVE" value="{{curso.duracionCursoJTVE}}" id="duracionCursoJTVE" placeholder="Ingrese la duración" class="form-control" required><br>
+
+         <center>
+           <button type="submit" name="button" class="btn btn-primary">&nbsp;&nbsp;<i class="fa-solid fa-pen"></i>&nbsp;Actualizar&nbsp;&nbsp;&nbsp;</button>
+           <button type="reset" name="button" class="btn btn-warning" ><a href="/curso" style="color:black; text-decoration: none;">&nbsp;&nbsp;<i class="fa-solid fa-xmark"></i>&nbsp;Cancelar&nbsp;&nbsp;&nbsp;</a></button>
+
+         </center>
+
+
+
+
+      </form>
+
+
+    </div>
+
+  </div>
+</div>
+
+
+{% endblock %}

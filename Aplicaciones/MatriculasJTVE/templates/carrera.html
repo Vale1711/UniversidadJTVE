@@ -1,0 +1,114 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+{% load static %}
+
+<div style="padding: 40px 30px 60px 30px;">
+  <div class="text-center">
+    <h1>
+
+    <b>
+
+      <i class="fa-solid fa-building-columns"></i>
+      Carrera
+    </b>
+    </h1>
+    <br>
+  </div>
+
+
+    <br>
+    <div class="row">
+       <div class="col-md-5">
+         <form class="" action="/guardarCarrera/" method="post" enctype="multipart/form-data" id="frm_nuevo_cliente">
+           {% csrf_token %}
+
+            <b>Nombre de la carrera:</b><br>
+           <input type="text" name="nombreCarreraJTVE" value="" id="nombreCarreraJTVE" placeholder="Ingrese el nombre de la carrera" class="form-control" required><br>
+           <b>Director de Carrera:</b><br>
+           <input type="text" name="directorCarreraJTVE" value="" id="directorCarreraJTVE" placeholder="Ingrese el director de Carrera" class="form-control" required><br>
+           <b>Logo de Carrera:</b>
+            <input type="file" name="logoCarreraJTVE" accept="image/*" id="logoCarreraJTVE" value="" class="form-control" required>
+           <b>Fecha de Fundación:</b>
+            <input type="date" name="fechaFundacionCarreraJTVE" value="" id="fechaFundacionCarreraJTVE" placeholder="Ingrese la fecha de Fundación" class="form-control" required><br>
+            <b>Descripción:</b><br>
+            <input type="text" name="descripcionCarreraJTVE" value="" id="descripcionCarreraJTVE" placeholder="Ingrese la descripción de la carrera" class="form-control" required><br>
+            <center>
+              <button type="submit" name="button" class="btn btn-primary">&nbsp;&nbsp;<i class="fa-solid fa-floppy-disk"></i>&nbsp;Guardar&nbsp;&nbsp;&nbsp;</button>
+              <button type="reset" name="button" class="btn btn-warning">&nbsp;&nbsp;<i class="fa-solid fa-xmark"></i>&nbsp;Cancelar&nbsp;&nbsp;&nbsp;</button>
+
+            </center>
+
+
+         </form>
+
+       </div>
+       <div class="col-md-7 text-center">
+         <table class="table table-striped" id="tbl_clientes">
+           <thead>
+             <tr>
+               <th>ID</th>
+               <th>Nombre</th>
+               <th>Director</th>
+               <th>Logo</th>
+               <th>Fecha de Fundación</th>
+               <th>Descripción</th>
+               <th>Acciones</th>
+             </tr>
+
+           </thead>
+           <tbody>
+             {% for carrera in carreras %}
+                <tr>
+                  <td>{{carrera.idCarreraJTVE}}</td>
+                  <td>{{carrera.nombreCarreraJTVE}}</td>
+                  <td>{{carrera.directorCarreraJTVE}}</td>
+                  <td>
+                    {% if carrera.logoCarreraJTVE %}
+                    <a href="{{carrera.logoCarreraJTVE.url}}" target="_blank"><img src="{{carrera.logoCarreraJTVE.url}}" alt="" height="50px">
+                    {% else %}</a>
+
+                    <b>N/A</b>
+                    {% endif %}
+                  </td>
+                  <td>{{carrera.fechaFundacionCarreraJTVE}}</td>
+                  <td>{{carrera.descripcionCarreraJTVE}}</td>
+                  <td>
+                        <a href="/editarCarrera/{{carrera.idCarreraJTVE}}" class="btn btn-warning">&nbsp;<i class="fa-solid fa-pen-to-square"></i>&nbsp;Editar&nbsp;</a>
+                        <a href="javascript: void(0)" onclick="eliminarCarrera('/eliminarCarrera/{{carrera.idCarreraJTVE}}');" class="btn btn-danger">&nbsp;<i class="fa-solid fa-trash"></i>&nbsp;Eliminar&nbsp;</a>
+                  </td>
+                </tr>
+                {% endfor %}
+           </tbody>
+
+         </table>
+       </div>
+    </div>
+</div>
+<script type="text/javascript">
+      function eliminarCarrera(url){
+        iziToast.question({
+            timeout: 15000,
+            close: true,
+            overlay: true,
+            displayMode: 'once',
+            id: 'question',
+            zindex: 999,
+            title: 'CONFIRMACIÓN',
+            message: '¿Está seguro de eliminar el cliente seleccionado?',
+            position: 'center',
+            buttons: [
+                ['<button><b>SI</b></button>', function (instance, toast) {
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                    window.location.href=url;
+                }, true],
+                ['<button>NO</button>', function (instance, toast) {
+
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                }],
+            ]
+        });
+      }
+    </script>
+
+  {% endblock %}

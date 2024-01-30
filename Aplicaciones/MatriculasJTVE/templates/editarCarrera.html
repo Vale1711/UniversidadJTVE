@@ -1,0 +1,53 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+{% load static %}
+
+
+<div style="padding: 60px 30px 200px 30px;">
+  <div class="row">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+      <form class="" action="/procesarinformacionCarrera/" method="post" enctype="multipart/form-data" id="frm_nuevo_cliente">
+        {% csrf_token %}
+
+        <input type="hidden" name="idCarreraJTVE" value="{{carrera.idCarreraJTVE}}">
+        <b>Nombre de la carrera:</b><br>
+       <input type="text" name="nombreCarreraJTVE" value="{{carrera.nombreCarreraJTVE}}" id="nombreCarreraJTVE" placeholder="Ingrese el nombre de la carrera" class="form-control" required><br>
+       <b>Director de Carrera:</b><br>
+       <input type="text" name="directorCarreraJTVE" value="{{carrera.directorCarreraJTVE}}" id="directorCarreraJTVE" placeholder="Ingrese el director de Carrera" class="form-control" required><br>
+       <b>Logo de Carrera:</b>
+       <div class="custom-file">
+               <input type="file" name="logoCarreraJTVE" accept="image/*" id="logoCarreraJTVE" class="custom-file-input" onchange="updateFileName(this)">
+           </div>
+           {% if carrera.logoCarreraJTVE %}
+               <img src="{{ carrera.logoCarreraJTVE.url }}" alt="{{ carrera.logoCarreraJTVE.name }}" height="60px">
+           {% endif %}
+       <b>Fecha de Fundación:</b>
+        <input type="date" name="fechaFundacionCarreraJTVE" value="{{carrera.fechaFundacionCarreraJTVE|date:'Y-m-d'}}" id="fechaFundacionCarreraJTVE" placeholder="Ingrese la fecha de Fundación" class="form-control" required><br>
+        <b>Descripción:</b><br>
+        <input type="text" name="descripcionCarreraJTVE" value="{{carrera.descripcionCarreraJTVE}}" id="descripcionCarreraJTVE" placeholder="Ingrese la descripción de la carrera" class="form-control" required><br>
+
+
+         <center>
+           <button type="submit" name="button" class="btn btn-primary">&nbsp;&nbsp;<i class="fa-solid fa-pen"></i>&nbsp;Actualizar&nbsp;&nbsp;&nbsp;</button>
+           <button type="reset" name="button" class="btn btn-warning" ><a href="/carrera" style="color:black; text-decoration: none;">&nbsp;&nbsp;<i class="fa-solid fa-xmark"></i>&nbsp;Cancelar&nbsp;&nbsp;&nbsp;</a></button>
+
+         </center>
+
+
+      </form>
+
+    </div>
+
+  </div>
+</div>
+<script>
+      function updateFileName(input) {
+      var fileName = input.files.length > 0 ? input.files[0].name : 'Seleccionar archivo';
+      var label = input.nextElementSibling;
+      label.innerHTML = fileName;
+    }
+    </script>
+  {% endblock %}

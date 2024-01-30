@@ -1,0 +1,76 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+{% load static %}
+
+
+<div style="padding: 60px 30px 200px 30px;">
+  <div class="row">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+      <form class="" action="/procesarinformacionAsignatura/" method="post" enctype="multipart/form-data" id="frm_nuevo_cliente">
+        {% csrf_token %}
+        <b>Seleccione el curso:</b><br>
+       <select class="form-control" name="id_curso" id="id_curso" required>
+         <option value="">---SELECCIONE EL CURSO---</option >
+         {%  for curso in cursos %}
+         <option value="{{curso.idCursoJTVE}}">{{curso.nivelCursoJTVE}}</option>
+         {% endfor %}
+       </select><br>
+        <script type="text/javascript">
+         document.getElementById("id_curso").value="{{asignatura.cursoJTVE.idCursoJTVE}}";
+
+       </script>
+
+        <input type="hidden" name="idAsignaturaJTVE" value="{{asignatura.idAsignaturaJTVE}}">
+        <b>Nombre de la asignatura:</b><br>
+       <input type="text" name="nombreAsignaturaJTVE" value="{{asignatura.nombreAsignaturaJTVE}}" id="nombreAsignaturaJTVE" placeholder="Ingrese el nombre de la asignatura" class="form-control" required><br>
+       <b>Creditos de la Asignatura:</b><br>
+       <input type="text" name="creditosAsignaturaJTVE" value="{{asignatura.creditosAsignaturaJTVE}}" id="creditosAsignaturaJTVE" placeholder="Ingrese los créditos" class="form-control" required><br>
+       <b>Fecha de Inicio:</b>
+        <input type="date" name="fechaInicioAsignaturaJTVE" value="{{asignatura.fechaInicioAsignaturaJTVE|date:'Y-m-d'}}" id="fechaInicioAsignaturaJTVE" placeholder="Ingrese la fecha de inicio" class="form-control" required><br>
+       <b>Fecha de Finalización:</b>
+        <input type="date" name="fechaFinalizacionAsignaturaJTVE" value="{{asignatura.fechaFinalizacionAsignaturaJTVE|date:'Y-m-d'}}" id="fechaFinalizacionAsignaturaJTVE" placeholder="Ingrese al fecha de finalización" class="form-control" required><br>
+        <b>Nombre del Profesor:</b><br>
+        <input type="text" name="profesorAsignaturaJTVE" value="{{asignatura.profesorAsignaturaJTVE}}" id="profesorAsignaturaJTVE" placeholder="Ingrese el profesor de la Asignatura" class="form-control" required><br>
+        <b>Silabo:</b><br>
+
+          {% if asignatura.silaboAsignaturaJTVE %}
+              <p>Nombre del archivo: {{ asignatura.silaboAsignaturaJTVE.name }}</p>
+          {% else %}
+              <p>Nombre del archivo: N/A</p>
+          {% endif %}
+
+
+          <input type="file" name="silaboAsignaturaJTVE" accept=".pdf" id="silaboAsignaturaJTVE" class="form-control">
+
+          <div id="pdfFileName"></div>
+
+
+        <b>Descripcion:</b><br>
+        <input type="text" name="descripcionAsignaturaJTVE" value="{{asignatura.descripcionAsignaturaJTVE}}" id="descripcionAsignaturaJTVE" placeholder="Ingrese la descripción" class="form-control" required><br>
+        <b>Tipo de Asignatura:</b><br>
+        <input type="text" name="tipoAsignaturaJTVE" value="{{asignatura.tipoAsignaturaJTVE}}" id="tipoAsignaturaJTVE" placeholder="Ingrese el tipo de Asignatura" class="form-control" required><br>
+
+
+         <center>
+           <button type="submit" name="button" class="btn btn-primary">&nbsp;&nbsp;<i class="fa-solid fa-pen"></i>&nbsp;Actualizar&nbsp;&nbsp;&nbsp;</button>
+           <button type="reset" name="button" class="btn btn-warning" ><a href="/asignatura" style="color:black; text-decoration: none;">&nbsp;&nbsp;<i class="fa-solid fa-xmark"></i>&nbsp;Cancelar&nbsp;&nbsp;&nbsp;</a></button>
+
+         </center>
+
+
+
+
+      </form>
+
+
+    </div>
+
+  </div>
+</div>
+
+
+
+{% endblock %}

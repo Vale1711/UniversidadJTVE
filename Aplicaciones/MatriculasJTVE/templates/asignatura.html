@@ -1,0 +1,136 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+{% load static %}
+
+<div style="padding: 40px 30px 60px 30px;">
+  <div class="text-center">
+    <h1>
+
+    <b>
+
+      <i class="fa-solid fa-building-columns"></i>
+      Asignatura
+    </b>
+    </h1>
+    <br>
+  </div>
+
+
+    <br>
+    <div class="row">
+       <div class="col-md-5">
+         <form class="" action="/guardarAsignatura/" method="post" enctype="multipart/form-data" id="frm_nuevo_cliente">
+           {% csrf_token %}
+           <b>Seleccione el curso:</b><br>
+          <select class="form-control" name="id_curso" id="id_curso" required>
+            <option value="">---SELECCIONE EL CURSO---</option >
+            {%  for curso in cursos %}
+            <option value="{{curso.idCursoJTVE}}">{{curso.nivelCursoJTVE}}</option>
+            {% endfor %}
+          </select><br>
+
+            <b>Nombre de la asignatura:</b><br>
+           <input type="text" name="nombreAsignaturaJTVE" value="" id="nombreAsignaturaJTVE" placeholder="Ingrese el nombre de la asignatura" class="form-control" required><br>
+           <b>Creditos de la Asignatura:</b><br>
+           <input type="text" name="creditosAsignaturaJTVE" value="" id="creditosAsignaturaJTVE" placeholder="Ingrese los créditos" class="form-control" required><br>
+           <b>Fecha de Inicio:</b>
+            <input type="date" name="fechaInicioAsignaturaJTVE" value="" id="fechaInicioAsignaturaJTVE" placeholder="Ingrese la fecha de inicio" class="form-control" required><br>
+           <b>Fecha de Finalización:</b>
+            <input type="date" name="fechaFinalizacionAsignaturaJTVE" value="" id="fechaFinalizacionAsignaturaJTVE" placeholder="Ingrese al fecha de finalización" class="form-control" required><br>
+            <b>Nombre del Profesor:</b><br>
+            <input type="text" name="profesorAsignaturaJTVE" value="" id="profesorAsignaturaJTVE" placeholder="Ingrese el profesor de la Asignatura" class="form-control" required><br>
+            <b>Silabo:</b><br>
+            <input type="file" name="silaboAsignaturaJTVE" accept=".pdf" id="silaboAsignaturaJTVE" class="form-control">
+            <b>Descripcion:</b><br>
+            <input type="text" name="descripcionAsignaturaJTVE" value="" id="descripcionAsignaturaJTVE" placeholder="Ingrese la descripción" class="form-control" required><br>
+            <b>Tipo de Asignatura:</b><br>
+            <input type="text" name="tipoAsignaturaJTVE" value="" id="tipoAsignaturaJTVE" placeholder="Ingrese el tipo de Asignatura" class="form-control" required><br>
+            <center>
+              <button type="submit" name="button" class="btn btn-primary">&nbsp;&nbsp;<i class="fa-solid fa-floppy-disk"></i>&nbsp;Guardar&nbsp;&nbsp;&nbsp;</button>
+              <button type="reset" name="button" class="btn btn-warning">&nbsp;&nbsp;<i class="fa-solid fa-xmark"></i>&nbsp;Cancelar&nbsp;&nbsp;&nbsp;</button>
+
+            </center>
+
+
+         </form>
+
+       </div>
+       <div class="col-md-7 text-center">
+         <table class="table table-striped" id="tbl_clientes">
+           <thead>
+             <tr>
+               <th>ID</th>
+               <th>Nombre</th>
+               <th>Creditos</th>
+               <th>Fecha de Inicio</th>
+               <th>Fecha Finalización</th>
+               <th>Profesor</th>
+               <th>Sílabo</th>
+               <th>Descripción</th>
+               <th>Tipo</th>
+               <th>Curso</th>
+               <th>Acciones</th>
+             </tr>
+
+           </thead>
+           <tbody>
+             {% for asignatura in asignaturas %}
+                <tr>
+                  <td>{{asignatura.idAsignaturaJTVE}}</td>
+                  <td>{{asignatura.nombreAsignaturaJTVE}}</td>
+                  <td>{{asignatura.creditosAsignaturaJTVE}}</td>
+                  <td>{{asignatura.fechaInicioAsignaturaJTVE}}</td>
+                  <td>{{asignatura.fechaFinalizacionAsignaturaJTVE}}</td>
+                  <td>{{asignatura.profesorAsignaturaJTVE}}</td>
+                  <td>
+                      {% if asignatura.silaboAsignaturaJTVE %}
+                          <a href="{{ asignatura.silaboAsignaturaJTVE.url }}" target="_blank" download>
+                              <i class="fas fa-file-pdf"></i> Descargar PDF
+                          </a>
+                      {% else %}
+                          <b>N/A</b>
+                      {% endif %}
+                  </td>
+                  <td>{{asignatura.descripcionAsignaturaJTVE}}</td>
+                  <td>{{asignatura.tipoAsignaturaJTVE}}</td>
+                  <td>{{asignatura.cursoJTVE.nivelCursoJTVE}}</td>
+                  <td>
+                        <a href="/editarAsignatura/{{asignatura.idAsignaturaJTVE}}" class="btn btn-warning">&nbsp;<i class="fa-solid fa-pen-to-square"></i>&nbsp;Editar&nbsp;</a>
+                        <a href="javascript: void(0)" onclick="eliminarAsignatura('/eliminarAsignatura/{{asignatura.idAsignaturaJTVE}}');" class="btn btn-danger">&nbsp;<i class="fa-solid fa-trash"></i>&nbsp;Eliminar&nbsp;</a>
+                  </td>
+                </tr>
+                {% endfor %}
+           </tbody>
+
+         </table>
+       </div>
+    </div>
+</div>
+<script type="text/javascript">
+      function eliminarAsignatura(url){
+        iziToast.question({
+            timeout: 15000,
+            close: true,
+            overlay: true,
+            displayMode: 'once',
+            id: 'question',
+            zindex: 999,
+            title: 'CONFIRMACIÓN',
+            message: '¿Está seguro de eliminar el cliente seleccionado?',
+            position: 'center',
+            buttons: [
+                ['<button><b>SI</b></button>', function (instance, toast) {
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                    window.location.href=url;
+                }, true],
+                ['<button>NO</button>', function (instance, toast) {
+
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                }],
+            ]
+        });
+      }
+    </script>
+
+  {% endblock %}
