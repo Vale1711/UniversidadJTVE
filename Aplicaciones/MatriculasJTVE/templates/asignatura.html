@@ -132,5 +132,92 @@
         });
       }
     </script>
+<script type="text/javascript">
+  $("#frm_nuevo_cliente").validate({
+    rules:{
+      "id_curso":{
+        required:true
+      },
+      "nombreAsignaturaJTVE":{
+        required:true
+      },
+      "creditosAsignaturaJTVE":{
+        required:true
+      },
+      "fechaInicioAsignaturaJTVE":{
+        required:true
+      },
+      "fechaFinalizacionAsignaturaJTVE":{
+        required:true
+      },
+      "profesorAsignaturaJTVE":{
+        required:true
+      },
+      "silaboAsignaturaJTVE":{
+        required:true
+      },
+      "descripcionAsignaturaJTVE":{
+        required:true
+      },
+      "tipoAsignaturaJTVE":{
+        required:true
+      }
 
+    },
+    messages:{
+      "id_curso":{
+        required:"Escoja el curso"
+      },
+      "nombreAsignaturaJTVE":{
+        required:"Ingrese el nombre del curso"
+      },
+      "fechaInicioAsignaturaJTVE":{
+        required:"Ingrese la fecha de inicio"
+      },
+      "fechaFinalizacionAsignaturaJTVE":{
+        required:"Ingrese la fecha de finalización"
+      },
+      "profesorAsignaturaJTVE":{
+        required:"Ingrese el profesor asignatura"
+      },
+      "silaboAsignaturaJTVE":{
+        required:"Ingrese el silabo de la asignatura"
+      },
+      "descripcionAsignaturaJTVE":{
+        required:"Ingrese la descripción"
+      },
+      "tipoAsignaturaJTVE":{
+        required:"Ingrese el tipo de asignatura"
+      }
+    }
+  });
+</script>
+<script type="text/javascript">
+      $(document).ready(function() {
+          $('#tbl_clientes').DataTable({
+              dom: 'Bfrtip',
+              buttons: [
+                  {
+                      extend: 'pdfHtml5',
+                      messageTop: 'Reportes de tipos en el RestauranteVJ.',
+                      className: 'btn btn-primary',
+                      text: '<i class="fas fa-file-pdf"></i> PDF'
+                  },
+                  {
+                      extend: 'print',
+                      className: 'btn btn-secondary',
+                      text: '<i class="fas fa-print"></i> Imprimir'
+                  },
+                  {
+                      extend: 'csv',
+                      className: 'btn btn-primary',
+                      text: '<i class="fas fa-file-csv"></i> CSV'
+                  }
+              ],
+              language: {
+                  url: "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+              }
+          });
+      });
+  </script>
   {% endblock %}
